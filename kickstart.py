@@ -40,7 +40,8 @@ def main():
     # https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign/download
 
     # store it to a local folder which you need to define here, for now we only care about the Train data part:
-    data_root = "./data/Train/"
+    data_root = "./GTSRB_dataset/Train"
+    # D:\DHBW\DigitBildverUMustErk\DeepSafety\GTSRB_dataset\Train
 
     batch_size = 32
     img_height = 224
