@@ -5,19 +5,20 @@
 import numpy as np
 import tensorflow as tf
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def main():
     # //////////////////////////////////////// Load model
-    model_name = "1641502791"
-    import_path = "./tmp/saved_models/{}".format(int(model_name))
+    model_name = "Model_V0_10E"
+    import_path = "./tmp/saved_models/{}".format(model_name)
     model = tf.keras.models.load_model(import_path)
 
     # //////////////////////////////////////// Load data
     # You will need to unzip the respective batch folders.
     # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-    val_data_root = "./safetyBatches/Batch_0/"
-    train_data_root = "./data/Train/"
+    val_data_root = "./safetyBatches/Batch_0/Batch_0/"
+    train_data_root = "./GTSRB_dataset/Train/"
 
     batch_size = 32
     img_height = 224
@@ -64,6 +65,15 @@ def main():
     print("Predictions: ", predictions)
     print("Ground truth: ", test_labels)
 
+    for picture in range(0, len(predictions)):
+        if(predictions[picture] != test_labels[picture]):
+            print("Passt nicht :(")
+            a = 0
+            picture_path = val_data_root + str(a) + "/" + "01279.png"#+ {"{}"}.format(01279) + ".png"
+            print(picture_path)
+            plt.imshow(picture_path)
+    plt.show()
+
     # //////////////////////////////////////// Let the validation begin
     # Probably you will want to at least migrate these to another script or class when this grows..
     def accuracy(predictions, test_labels):
@@ -78,11 +88,15 @@ def main():
         f'Class ID: {predictions[0]} Class Name: {class_names_df["SignName"][predictions[0]]}'
     )
 
+
+
     # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
     # However it is not about how many metrics you crank out, it is about whether you find the meaningful ones and report on them.
     # Think about a system on how to decide which metric to go for..
 
     # You are looking for a great package to generate your reports, let me recommend https://plotly.com/dash/
+
+
 
 
 if __name__ == "__main__":

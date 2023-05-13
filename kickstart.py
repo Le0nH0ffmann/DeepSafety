@@ -28,24 +28,24 @@ from tensorboard import program
 
 mobilenet_v2 = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 inception_v3 = "https://tfhub.dev/google/tf2-preview/inception_v3/feature_vector/4"
+imagenet_mobilenet_v2_100_96 = (
+    "https://tfhub.dev/google/imagenet/mobilenet_v2_100_96/feature_vector/5"
+)
 
 
 def main():
-    feature_extractor_model = (
-        inception_v3  # @param ["mobilenet_v2", "inception_v3"] choose wisely
-    )
+    feature_extractor_model = imagenet_mobilenet_v2_100_96  # @param ["mobilenet_v2", "inception_v3", "imagenet_mobilenet_v2_100_96"] choose wisely
 
     # //////////////////////////////////////// Data data data
     # The data to train and validate the model can be downloaded here:
     # https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign/download
 
     # store it to a local folder which you need to define here, for now we only care about the Train data part:
-    data_root = "./GTSRB_dataset/Train"
-    # D:\DHBW\DigitBildverUMustErk\DeepSafety\GTSRB_dataset\Train
+    data_root = "./GTSRB_dataset/Train/"
 
     batch_size = 32
-    img_height = 224
-    img_width = 224
+    img_height = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
+    img_width = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
 
     train_ds = tf.keras.utils.image_dataset_from_directory(
         data_root,
@@ -122,7 +122,7 @@ def main():
         log_dir=log_dir, histogram_freq=1
     )  # Enable histogram computation for every epoch.
 
-    NUM_EPOCHS = 10  # This is probably not enough
+    NUM_EPOCHS = 50  # This is probably not enough
 
     history = model.fit(
         train_ds,
@@ -135,7 +135,8 @@ def main():
     # and which information you will need to link with the model when doing so
     t = time.time()
 
-    export_path = "./tmp/saved_models/{}".format(int(t))
+    #export_path = "./tmp/saved_models/{}".format(int(t))
+    export_path = "./tmp/saved_models/Model_V0_E" + str(NUM_EPOCHS) + "S" + str(img_height)
     model.save(export_path)
 
 
