@@ -1,3 +1,8 @@
+
+# Binder Jupyter Notebook
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Le0nH0ffmann/DeepSafety/main?labpath=validation_pipeline.ipynb)
+
+
 # DeepSafety
 This is a repository to study safety concepts for deep learning perception applications at Ravensburg-Weingarten University.
 
