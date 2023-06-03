@@ -114,7 +114,8 @@ def main():
     model.compile(
         optimizer=tf.keras.optimizers.Adam(),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=["acc"],
+        # metrics=["acc", tf.keras.metrics.SparseCategoricalAccuracy()],
+        metrics=["acc", tf.keras.metrics.SparseCategoricalAccuracy()],
     )
 
     log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
