@@ -85,18 +85,22 @@ def main():
 
     # //////////////////////////////////////// Preparing the model or heating up the coffee machine
 
-    # freeze the feature extractor
     feature_extractor_layer = hub.KerasLayer(
         feature_extractor_model, input_shape=(img_height, img_width, 3), trainable=False
     )
 
-    # attach the head fitting the current traffic sign classification task
-    # the head is a pure fully connected output layer
+
     num_classes = len(class_names)
 
-    model = tf.keras.Sequential(
-        [feature_extractor_layer, tf.keras.layers.Dense(num_classes)]
-    )
+    model = tf.keras.Sequential([
+        feature_extractor_layer,
+        tf.keras.layers.Reshape(target_shape=(4, 4, 80)),  # Neue Gestaltung der Ausgabe des Feature-Extractor-Layers
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu'),
+        tf.keras.layers.MaxPooling2D((2, 2)),  # Max Pooling Layer hinzufügen
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),  # Dense Layer hinzufügen
+        tf.keras.layers.Dense(num_classes, activation='softmax')
+    ])
 
     # model.summary() (in case you care how the whole thing looks now)
 
